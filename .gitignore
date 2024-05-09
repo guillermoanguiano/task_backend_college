@@ -3,6 +3,7 @@
 
 # Archivos de configuración locales
 .env.local
+.env
 
 # Archivos de registro y salida
 logs

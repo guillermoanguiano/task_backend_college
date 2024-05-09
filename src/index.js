@@ -2,7 +2,8 @@ import express from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 import config from './config.js'
-import chalk from './utils/colors.js'
+import colors from './utils/colors.js'
+import connectDB from './db/db.js'
 
 const app = express()
 
@@ -10,10 +11,17 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use(express.json())
 
-
-app.listen(config.PORT, () => {
-    chalk.info(`Server running on port ${config.PORT}`)
+connectDB().then(() => {
+    app.listen(config.PORT, () => {
+        colors.info(`Server running on port ${config.PORT}`)
+    })
+}).catch(error => {
+    colors.error(error)
 })
+
+// Routes
+app.use('/api', () => {})
+
 
 
 export default app
