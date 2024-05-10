@@ -8,14 +8,28 @@ const router = Router()
 router.get('/', TaskController.getTasks)
 
 router.get(
-    '/:id', 
+    '/:id',
     param('id').isMongoId(),
     handleValidationErrors,
     TaskController.getTask
 )
 
-router.post('/', TaskController.createTask)
-router.put('/:id', TaskController.updateTask)
-router.delete('/:id', TaskController.deleteTask)
+router.post(
+    '/',
+    ...validateRequiredFields(['title', 'description']),
+    ...handleValidationErrors,
+    TaskController.createTask
+)
+router.put('/:id',
+    param('id').isMongoId(),
+    ...validateRequiredFields(['title', 'description', 'completed']),
+    handleValidationErrors,
+    TaskController.updateTask
+)
+router.delete(
+    '/:id',
+    param('id').isMongoId(),
+    TaskController.deleteTask
+)
 
 export default router
