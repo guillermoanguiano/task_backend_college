@@ -13,7 +13,7 @@ router.post(
 )
 
 router.post(
-    '/',
+    '/create',
     ...validateRequiredFields(['name', 'email', 'password']),
     handleValidationErrors,
     UserController.registerUser

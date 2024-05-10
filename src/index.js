@@ -4,6 +4,7 @@ import bodyParser from 'body-parser'
 import config from './config.js'
 import colors from './utils/colors.js'
 import connectDB from './db/db.js'
+import routes from './routes/index.js'
 
 const app = express()
 
@@ -20,7 +21,7 @@ connectDB().then(() => {
 })
 
 // Routes
-app.use('/api', () => {})
+app.use('/api', routes)
 
 
 
