@@ -24,5 +24,4 @@ connectDB().then(() => {
 app.use('/api', routes)
 
 
-
 export default app

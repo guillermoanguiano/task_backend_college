@@ -28,7 +28,11 @@ export class UserController {
 
             const savedUser = await newUser.save()
 
-            res.send(savedUser)
+            res.send({
+                success: true,
+                data: savedUser,
+                message: 'User created successfully'
+            })
         } catch (error) {
             handleHttp(res, 'ERROR_REGISTER_USER', error)
         }
