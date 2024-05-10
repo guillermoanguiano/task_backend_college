@@ -50,7 +50,8 @@ export class UserController {
             const isMatch = await bcrypt.compare(password, user.password)
 
             if (!isMatch) {
-                throw new Error('Invalid credentials')
+                res.send({ error: 'Invalid credentials' })
+                return
             }
 
             const userData = {

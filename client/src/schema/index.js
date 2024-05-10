@@ -12,3 +12,8 @@ export const RegisterSchema = Yup.object().shape({
         "Passwords must match"
     ),
 });
+
+export const LoginSchema = Yup.object().shape({
+    email: Yup.string().email("Invalid email").required("Required"),
+    password: Yup.string().required("Required"),
+})
