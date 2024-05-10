@@ -1,9 +1,10 @@
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 import { handleHttp } from "../utils/error.handle.js"
 import User from "../models/user.js"
+import config from '../config.js'
 
 export class UserController {
-
     static async checkIfUserExists(email) {
         const user = await User.findOne({ email })
         return user ? true : false
@@ -34,7 +35,34 @@ export class UserController {
     }
 
     static async loginUser(req, res) {
-        res.send('loginUser')
-    }
+        const { email, password } = req.body
+        try {
+            const user = await User.findOne({ email })
 
+            if (!user) {
+                throw new Error('User not found')
+            }
+
+            const isMatch = await bcrypt.compare(password, user.password)
+
+            if (!isMatch) {
+                throw new Error('Invalid credentials')
+            }
+
+            const userData = {
+                id: user._id,
+                name: user.name,
+                email: user.email
+            }
+
+            const accessTokenSecret = config.JWT_SECRET
+            const accessToken = jwt.sign(userData, accessTokenSecret, {
+                expiresIn: '1h'
+            })
+
+            res.send({ ...userData, accessToken })
+        } catch (error) {
+            handleHttp(res, 'ERROR_LOGIN_USER', error)
+        }
+    }
 }
