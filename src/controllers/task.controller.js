@@ -2,12 +2,13 @@ import Task from '../models/task.js'
 import { handleHttp } from '../utils/error.handle.js'
 
 export class TaskController {
-    static async createTask({ body }, res) {
-        const { title, description } = body
+    static async createTask(req, res) {
+        const { title, description, userId } = req.body
         try {
             const newTask = new Task({
                 title,
-                description
+                description,
+                user: userId
             })
             const savedTask = await newTask.save()
             res.send({
@@ -21,8 +22,9 @@ export class TaskController {
     }
 
     static async getTasks(req, res) {
+        const { userId } = req
         try {
-            const tasks = await Task.find({})
+            const tasks = await Task.find({ user: userId })
             res.send(tasks)
         } catch (error) {
             handleHttp(res, 'ERROR_GET_TASKS', error)
@@ -31,8 +33,9 @@ export class TaskController {
 
     static async getTask(req, res) {
         const { id } = req.params
+        const { userId } = req
         try {
-            const task = await Task.findById(id)
+            const task = await Task.findOne({ _id: id, user: userId })
             res.send(task)
         } catch (error) {
             handleHttp(res, 'ERROR_GET_TASK', error)

@@ -15,6 +15,20 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true
+    },
+    tasks: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Task',
+        }
+    ],
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    updatedAt: {
+        type: Date,
+        default: Date.now
     }
 })
 
