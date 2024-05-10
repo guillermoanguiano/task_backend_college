@@ -4,13 +4,19 @@ import User from "../models/user.js"
 
 export class UserController {
 
-    static async checkIfUserExists() {
-        return true
+    static async checkIfUserExists(email) {
+        const user = await User.findOne({ email })
+        return user ? true : false
     }
 
     static async registerUser({ body }, res) {
         const { name, email, password } = body
         try {
+            const userExists = await UserController.checkIfUserExists(email)
+
+            if (userExists) {
+                throw new Error('User already exists')
+            }
             const hashedPassword = await bcrypt.hash(password, 10)
 
             const newUser = new User({
