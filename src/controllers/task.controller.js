@@ -1,4 +1,5 @@
 import Task from '../models/task.js'
+import User from '../models/user.js'
 import { handleHttp } from '../utils/error.handle.js'
 
 export class TaskController {
@@ -11,6 +12,12 @@ export class TaskController {
                 user: userId
             })
             const savedTask = await newTask.save()
+
+            await User.findByIdAndUpdate(userId, {
+                $push: { tasks: savedTask._id },
+                updatedAt: new Date()
+            }, { new: true })
+
             res.send({
                 success: true,
                 data: savedTask,
