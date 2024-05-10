@@ -18,7 +18,7 @@ export const login = async(data) => {
 
 export const register = async(data) => {
     try {
-        const response = await fetch(API_URL + '/users/register', {
+        const response = await fetch(API_URL + '/users/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
