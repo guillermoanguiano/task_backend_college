@@ -6,24 +6,25 @@ import { validateRequiredFields } from '../utils/error.handle.js'
 
 const router = Router()
 
-router.get('/', TaskController.getTasks)
+router.post(
+    '/:userId',
+    ...validateRequiredFields(['title', 'description']),
+    handleValidationErrors,
+    TaskController.createTask
+)
+
+router.get('/:id', TaskController.getTasks)
 
 router.get(
-    '/:id',
+    '/:userId/:id',
     param('id').isMongoId().withMessage('Invalid ID'),
     handleValidationErrors,
     TaskController.getTask
 )
 
-router.post(
-    '/',
-    ...validateRequiredFields(['title', 'description']),
-    handleValidationErrors,
-    TaskController.createTask
-)
 router.put('/:id',
     param('id').isMongoId(),
-    ...validateRequiredFields(['title', 'description', 'completed']),
+    ...validateRequiredFields(['completed']),
     handleValidationErrors,
     TaskController.updateTask
 )

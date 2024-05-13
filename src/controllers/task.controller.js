@@ -4,7 +4,8 @@ import { handleHttp } from '../utils/error.handle.js'
 
 export class TaskController {
     static async createTask(req, res) {
-        const { title, description, userId } = req.body
+        const { title, description } = req.body
+        const { userId } = req.params
         try {
             const newTask = new Task({
                 title,
@@ -29,18 +30,17 @@ export class TaskController {
     }
 
     static async getTasks(req, res) {
-        const { userId } = req
+        const { id } = req.params
         try {
-            const tasks = await Task.find({ user: userId })
-            res.send(tasks)
+            const tasks = await Task.find({ user: id })
+            res.send( tasks )
         } catch (error) {
             handleHttp(res, 'ERROR_GET_TASKS', error)
         }
     }
 
     static async getTask(req, res) {
-        const { id } = req.params
-        const { userId } = req
+        const { id, userId } = req.params
         try {
             const task = await Task.findOne({ _id: id, user: userId })
             res.send(task)
@@ -51,11 +51,11 @@ export class TaskController {
 
     static async updateTask(req, res) {
         const { id } = req.params
-        const { title, description } = req.body
+        const { completed } = req.body
         try {
             const updatedTask = await Task.findByIdAndUpdate(id, {
-                title,
-                description
+                completed,
+                updatedAt: new Date()
             })
             res.send({
                 sucess: true,
