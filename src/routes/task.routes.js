@@ -28,6 +28,7 @@ router.put('/:id',
     handleValidationErrors,
     TaskController.updateTask
 )
+
 router.delete(
     '/:id',
     param('id').isMongoId().withMessage('Invalid ID'),

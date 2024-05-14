@@ -71,6 +71,12 @@ export class TaskController {
         const { id } = req.params
         try {
             const deletedTask = await Task.findByIdAndDelete(id)
+
+            await User.findByIdAndUpdate(deletedTask.user, {
+                $pull: { tasks: deletedTask._id },
+                updatedAt: new Date()
+            })
+
             res.send({
                 success: true,
                 data: deletedTask,
