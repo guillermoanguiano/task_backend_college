@@ -16,10 +16,10 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    tasks: [
+    songs: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Task',
+            ref: 'Song',
         }
     ],
     createdAt: {

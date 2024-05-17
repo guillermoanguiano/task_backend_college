@@ -1,8 +1,8 @@
 /* eslint-disable no-extra-boolean-cast */
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { IoMdClose } from "react-icons/io";
-import { TaskSchema } from "../schema";
-import { createTask } from "../api/task";
+import { SongSchema } from "../schema";
+import { createSong } from "../api/task";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -10,7 +10,7 @@ const isRequired = (message) => (value) => !!value ? undefined : message;
 
 const initialValues = {
     name: "",
-    description: "",
+    link: "",
 };
 
 // eslint-disable-next-line react/prop-types
@@ -20,21 +20,21 @@ export default function Modal({ isOpen, toggleModal, id }) {
         try {
             const data = {
                 title: values.name,
-                description: values.description,
+                description: values.link,
             };
-            const response = await createTask(data, id);
+            const response = await createSong(data, id);
             
             if(!response.success) {
-              throw new Error("Error al crear la tarea");
+              throw new Error("Error al agregar la cancion");
             }
 
-            toast.success("Tarea creada con exito");
+            toast.success("Cancion agregada con exito");
             navigate(0);
 
             resetForm();
             toggleModal();
         } catch (error) {
-            toast.error("Error al crear la tarea");
+            toast.error("Error al agregar la cancion");
             console.log(error);
         }
     };
@@ -47,7 +47,7 @@ export default function Modal({ isOpen, toggleModal, id }) {
             <div className="bg-gray-700 py-4 px-4 min-w-80 min-h-60 rounded-lg">
                 <div className="space-y-4">
                     <div className="flex justify-between items-center">
-                        <h1>Agrega Tareas</h1>
+                        <h1>Agrega Cancion</h1>
 
                         <button
                             onClick={toggleModal}
@@ -59,15 +59,15 @@ export default function Modal({ isOpen, toggleModal, id }) {
 
                     <Formik
                         initialValues={initialValues}
-                        validationSchema={TaskSchema}
+                        validationSchema={SongSchema}
                         onSubmit={handleForm}
                     >
                         <Form className="flex flex-col gap-4" action="#">
                             <div className="space-y-2">
-                                <label htmlFor="name">Tarea</label>
+                                <label htmlFor="name">Nombre de la Cancion</label>
                                 <Field
                                     type="text"
-                                    placeholder="Ingresa una nueva tarea"
+                                    placeholder="Ingresa una Cancion"
                                     className="border border-solid border-gray-500 p-2 rounded-lg w-full"
                                     name="name"
                                     id="name"
@@ -81,22 +81,22 @@ export default function Modal({ isOpen, toggleModal, id }) {
                             </div>
 
                             <div className="space-y-2">
-                                <label htmlFor="description">Descripción</label>
+                                <label htmlFor="link">Link</label>
                                 <Field
-                                    name="description"
+                                    name="link"
                                     as="textarea"
-                                    id="description"
+                                    id="link"
                                     cols="30"
                                     rows="5"
                                     maxLength={300}
                                     className="border border-solid border-gray-500 p-2 rounded-lg w-full"
-                                    placeholder="Ingresa una descripción"
+                                    placeholder="Ingresa el link de la cancion"
                                     validate={isRequired(
-                                        "Descripción es requerida"
+                                        "Link de la cancion es requerida"
                                     )}
                                 />
                                 <ErrorMessage
-                                    name="description"
+                                    name="link"
                                     component="div"
                                     className="text-red-500"
                                 />
@@ -106,7 +106,7 @@ export default function Modal({ isOpen, toggleModal, id }) {
                                 type="submit"
                                 className="border border-solid border-gray-500 p-2 rounded-full"
                             >
-                                Crear Tarea
+                                Agregar Cancion
                             </button>
                         </Form>
                     </Formik>

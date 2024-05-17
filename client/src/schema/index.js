@@ -18,7 +18,7 @@ export const LoginSchema = Yup.object().shape({
     password: Yup.string().required("La contrasena es requerida"),
 })
 
-export const TaskSchema = Yup.object().shape({
-    name: Yup.string().required("Tarea Requerida"),
-    description: Yup.string().required("Descripcion Requerida"),
+export const SongSchema = Yup.object().shape({
+    name: Yup.string().required("Cancion es Requerida"),
+    link: Yup.string().required("Link es Requerido"),
 })

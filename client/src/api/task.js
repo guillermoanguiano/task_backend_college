@@ -1,6 +1,6 @@
 import { API_URL } from "./consts";
 
-export const createTask = async (data, userId) => {
+export const createSong = async (data, userId) => {
     try {
         const response = await fetch(`${API_URL}/tasks/${userId}`, {
             method: 'POST',
@@ -16,7 +16,7 @@ export const createTask = async (data, userId) => {
     }
 }
 
-export const getTasks = async (userId) => {
+export const getSong = async (userId) => {
     try {
         const response = await fetch(`${API_URL}/tasks/${userId}`, {
             cache: 'no-store'
@@ -28,23 +28,7 @@ export const getTasks = async (userId) => {
     }
 }
 
-export const completeTask = async (id) => {
-    try {
-        const response = await fetch(`${API_URL}/tasks/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ completed: true })
-        })
-        const data = await response.json()
-        return data
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-export const deleteTask = async (id) => {
+export const deleteSong = async (id) => {
     try {
         const response = await fetch(`${API_URL}/tasks/${id}`, {
             method: 'DELETE'

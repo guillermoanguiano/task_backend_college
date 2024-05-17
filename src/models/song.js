@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-const taskSchema = new Schema({
+const songSchema = new Schema({
     title: {
         type: String,
         required: true
@@ -8,10 +8,6 @@ const taskSchema = new Schema({
     description: {
         type: String,
         required: true
-    },
-    completed: {
-        type: Boolean,
-        default: false
     },
     user: {
         type: Schema.Types.ObjectId,
@@ -28,4 +24,4 @@ const taskSchema = new Schema({
     }
 })
 
-export default model('Task', taskSchema)
+export default model('Song', songSchema)
